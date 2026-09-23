@@ -1,0 +1,142 @@
+==============================================================================
+HW02 - EXPLORATORY DATA ANALYSIS PROFILE
+MIS3060 Business Intelligence with AI | Lauren Curley
+==============================================================================
+Source file : C:\MIS3060\hw02\02_Data\Raw\fact_transactions.csv
+Run at      : 2026-09-22 18:23:24
+
+==============================================================================
+[2] DATASET SHAPE
+==============================================================================
+Rows    : 298,772
+Columns : 9
+Shape   : (298772, 9)
+
+==============================================================================
+[3] COLUMNS AND DATA TYPES
+==============================================================================
+     column          dtype
+     txn_id          int64
+  client_id          int64
+ advisor_id          int64
+security_id        float64
+   txn_date datetime64[us]
+   txn_type            str
+     shares        float64
+      price        float64
+     amount        float64
+
+==============================================================================
+[4] MISSING VALUES BY COLUMN
+==============================================================================
+     column  missing  pct_missing
+     txn_id        0          0.0
+  client_id        0          0.0
+ advisor_id        0          0.0
+security_id   101597         34.0
+   txn_date        0          0.0
+   txn_type        0          0.0
+     shares   101597         34.0
+      price   101597         34.0
+     amount        0          0.0
+
+Total missing cells: 304,791
+
+==============================================================================
+[5] DESCRIPTIVE STATISTICS (NUMERIC COLUMNS)
+==============================================================================
+            txn_id    client_id   advisor_id  security_id       shares        price       amount
+count  298772.0000  298772.0000  298772.0000  197175.0000  197175.0000  197175.0000  298772.0000
+mean   149386.5000    1249.6583      12.8025     249.3244     247.7716     255.1350   54075.1665
+std     86248.1917     722.7200       7.2745     144.2731     147.6879     141.5269   50494.3206
+min         1.0000       1.0000       1.0000       1.0000    -499.6323      10.0000      13.3300
+25%     74693.7500     625.0000       6.0000     125.0000     123.5314     132.7600   12078.9300
+50%    149386.5000    1246.0000      13.0000     248.0000     248.7664     255.0900   41220.4850
+75%    224079.2500    1873.0000      19.0000     375.0000     373.8341     377.9300   81827.0100
+max    298772.0000    3192.0000      25.0000     500.0000     499.9981     500.0000  249302.3300
+
+==============================================================================
+[6] TXN_TYPE VALUE COUNTS AND PERCENTAGES
+==============================================================================
+    txn_type  count  percent
+         Buy  83556    27.97
+        Sell  59755    20.00
+    Dividend  53864    18.03
+     Deposit  35981    12.04
+Advisory Fee  35766    11.97
+  Withdrawal  29850     9.99
+
+Distinct txn_type values: 6
+
+==============================================================================
+[7] UNIQUE ENTITY COUNTS
+==============================================================================
+Unique clients    (client_id)   : 2,700
+Unique advisors   (advisor_id)  : 25
+Unique securities (security_id) : 500
+
+Note: nunique() excludes nulls. security_id is null for 101,597 non-security transactions (e.g. Deposit / Withdrawal).
+
+==============================================================================
+[8] TXN_DATE RANGE
+==============================================================================
+Earliest txn_date : 2020-01-01
+Latest   txn_date : 2024-12-30
+Span              : 1,825 days
+Null dates        : 0
+
+==============================================================================
+[9] DUPLICATE CHECK ON txn_id
+==============================================================================
+Duplicate txn_id rows (beyond first occurrence) : 0
+Unique txn_id values                            : 298,772
+Fully duplicated rows (all 9 columns)           : 0
+
+Result: txn_id is a valid unique primary key.
+
+==============================================================================
+[10] AMOUNT - CENTRAL TENDENCY AND SKEWNESS
+==============================================================================
+Mean     : 54,075.17
+Median   : 41,220.49
+Skewness : 1.1463
+Interpretation: distribution is right-skewed (long tail of large transactions).
+
+==============================================================================
+[11] AMOUNT BY TXN_TYPE (SORTED BY MEAN AMOUNT DESC)
+==============================================================================
+              count  mean_amount  median_amount
+txn_type                                       
+Dividend      53864     64077.30       48805.60
+Buy           83556     63738.49       47893.58
+Sell          59755     63635.55       48080.16
+Deposit       35981     50588.07       50760.33
+Withdrawal    29850     49997.34       49843.42
+Advisory Fee  35766      7375.17         859.12
+
+==============================================================================
+[12] CORRELATION MATRIX: shares / price / amount
+==============================================================================
+        shares  price  amount
+shares    1.00   0.00    0.65
+price     0.00   1.00    0.64
+amount    0.65   0.64    1.00
+
+Three strongest correlations (by absolute value, self-pairs excluded):
+  1. shares <-> amount  r =   0.65  (moderate positive)
+  2. price  <-> amount  r =   0.64  (moderate positive)
+  3. shares <-> price   r =   0.00  (weak positive)
+
+==============================================================================
+[13] SHARES - MIN, MAX, AND NEGATIVE COUNT BY TXN_TYPE
+==============================================================================
+              non_null  min_shares  max_shares  negative_count
+txn_type                                                      
+Advisory Fee         0         NaN         NaN               0
+Buy              83556   -499.6323    499.9973             836
+Deposit              0         NaN         NaN               0
+Dividend         53864      1.0024    499.9981               0
+Sell             59755      1.0030    499.9961               0
+Withdrawal           0         NaN         NaN               0
+
+Overall -- min: -499.6323 | max: 499.9981 | negative values: 836 | nulls: 101,597
